@@ -14,8 +14,9 @@ exports.addStore = async (req, res) => {
 
 exports.createStore = async (req, res) => {
     const store = await (new Store(req.body)).save();
-    req.flash('success',`${store.name}...You've successfully passed something to a database...it's not that impressive...'`)
+    req.flash('success',`${store.name}...You've successfully passed something to a database...it's not that impressive...'`);
     res.redirect(`/store/${store.slug}`);
+    console.log("???")
 };
 
 exports.getStores = async (req, res) => {
@@ -33,6 +34,7 @@ exports.editStore = async (req, res) => {
 };
 
 exports.updateStore = async (req, res) => {
+    req.body.location.type ='Point';
     const store = await Store.findOneAndUpdate({ _id: req.params.id }, req.body, {
         new: true, // return the new store instead of the old one
         runValidators: true
